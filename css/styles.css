@@ -1,0 +1,38 @@
+#container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 100px 250px;
+  grid-gap: 10px;
+}
+
+header {
+  background-color: blue;
+  text-align: center; 
+  grid-column-start: 1;
+  grid-column-end: last;
+}
+
+.product {
+  background-color: blue;
+}
+
+#product_1 {
+  grid-column-start: 1;
+  grid-column-end: 5;
+}
+
+#product_2 {
+  grid-column-start: 5;
+  grid-column-end: 9;
+}
+
+#product_3 {
+  grid-column-start: 9;
+  grid-column-end: 13;
+}
+
+#results {
+  background-color: green;
+  grid-column-start: 1;
+  grid-column-end: 5
+}
