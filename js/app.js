@@ -37,14 +37,13 @@ function renderImages() {
     let img = document.createElement('img');
     imgContainer.appendChild(img);
 
+    imgContainer.addEventListener('click', handleClick);
+
     img.setAttribute('class', 'item');
     img.setAttribute('id', PRODUCTS_ARR[i].HTMLid);
     img.setAttribute('src', PRODUCTS_ARR[i].imgURL);
 
     PRODUCTS_ARR[i].totalViews++;
-
-    // Need to place this on parent div and remove once 25 clicks
-    document.getElementById(PRODUCTS_ARR[i].HTMLid).addEventListener('click', handleClick);
   }
 }
 
@@ -58,8 +57,8 @@ function handleClick(event) {
   event.preventDefault();
   clicks++;
 
-  let parentId = event.target.parentElement.id;
-  
+  let parentId = event.target.id;
+
   // Whichever was selected, increment votes
   if (parentId === 'product_0') {
     PRODUCTS_ARR[0].totalVotes++;
@@ -86,6 +85,12 @@ function handleClick(event) {
 
     renderImages();
   } else {
+    let divs = document.getElementsByTagName('div');
+
+    for (let l = 1; l < divs.length - 1; l++) {
+      divs[l].removeEventListener('click', handleClick);
+    }
+
     renderResults();
   }
 }
