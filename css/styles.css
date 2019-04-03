@@ -1,7 +1,7 @@
 #container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 100px 250px;
+  grid-template-rows: 100px 250px 400px;
   grid-gap: 10px;
 }
 
@@ -41,4 +41,11 @@ header {
   background-color: green;
   grid-column-start: 1;
   grid-column-end: 5
+}
+
+#graph {
+  grid-column-start: 5;
+  grid-column-end: 12;
+  height: auto;
+  width: 100%;
 }
