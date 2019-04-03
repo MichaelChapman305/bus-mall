@@ -71,7 +71,7 @@ function handleClick(event) {
   if (clicks !== 25) {
     // Remove first 3 array elements and splice to random locations > index 2
     for (let i = 0; i < 3; i++) {
-      let randomNum = Math.floor(Math.random() * (PRODUCTS_ARR.length - 3) + 3);
+      let randomNum = Math.floor(Math.random() * (PRODUCTS_ARR.length - 4) + 4);
 
       let item = PRODUCTS_ARR.shift();
       PRODUCTS_ARR.splice(randomNum, 0, item);
@@ -113,6 +113,61 @@ function renderResults() {
     list.appendChild(listItem);
     listItem.textContent =`${PRODUCTS_ARR[i].totalVotes} votes for ${PRODUCTS_ARR[i].HTMLid}`;
   }
+
+  renderChart();
+}
+
+
+//-----------------------------------------------------------
+//
+// Renders bar graph reflecting data
+//
+//-----------------------------------------------------------
+function renderChart() {
+  const barData = {
+    type: 'bar',
+    data: {
+      labels : [],
+      datasets : [
+        {
+          data : [],
+          backgroundColor : 'rgb(64, 211, 191)',
+          borderColor : 'rgb(46, 146, 133)',
+          pointBackgroundColor: 'rgb(46, 135, 100)',
+          label: 'Final Vote Data'
+        }
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          maxBarThickness: 30,
+        }],
+        yAxes: [{
+          ticks: {stepSize: 1},
+          gridLines: {
+            offsetGridLines: false
+          },
+          maintainAspectRatio: false,
+        }]
+      }
+    }
+  };
+
+  let container = document.getElementById('graph');
+
+  let canvas = document.createElement('Canvas');
+  let ctx = canvas.getContext('2d');
+
+  container.appendChild(canvas);
+
+  for (let i = 0; i < PRODUCTS_ARR.length; i++) {
+    barData.data.labels.push(PRODUCTS_ARR[i].HTMLid);
+
+    barData.data.datasets[0]['data'].push(PRODUCTS_ARR[i].totalVotes);
+  }
+
+  new Chart(ctx, barData);
 }
 
 //-----------------------------------------------------------
