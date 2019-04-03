@@ -25,7 +25,13 @@ const PRODUCTS_ARR = [
 
 let clicks = 0;
 
+//-----------------------------------------------------------
+//
+// Renders images onto the DOM, accumulates totalViews, and adds eventListeners on images
+//
+//-----------------------------------------------------------
 function renderImages() {
+  // Runs 3 times for first 3 array elements
   for (let i = 0; i < 3; i++) {
     let imgContainer = document.getElementById(`product_${i}`);
     let img = document.createElement('img');
@@ -42,12 +48,19 @@ function renderImages() {
   }
 }
 
+//-----------------------------------------------------------
+//
+// Once click is made on image is increments clicks, and increments votes
+// Takes away images, and either calls renderImages or renderResults
+//
+//-----------------------------------------------------------
 function handleClick(event) {
   event.preventDefault();
   clicks++;
 
   let parentId = event.target.parentElement.id;
-
+  
+  // Whichever was selected, increment votes
   if (parentId === 'product_0') {
     PRODUCTS_ARR[0].totalVotes++;
   } else if (parentId === 'product_1') {
@@ -57,13 +70,15 @@ function handleClick(event) {
   }
 
   if (clicks !== 25) {
+    // Remove first 3 array elements and splice to random locations > index 2
     for (let i = 0; i < 3; i++) {
-      let randomNum = Math.floor(Math.random() * (PRODUCTS_ARR.length - 4) + 4);
+      let randomNum = Math.floor(Math.random() * (PRODUCTS_ARR.length - 3) + 3);
 
       let item = PRODUCTS_ARR.shift();
       PRODUCTS_ARR.splice(randomNum, 0, item);
     }
 
+    // Removes each image from the DOM and call renderImages() for next 3
     for (let j = 0; j < 3; j++) {
       let parent = document.getElementById(`product_${j}`);
       parent.removeChild(parent.lastChild);
@@ -75,9 +90,15 @@ function handleClick(event) {
   }
 }
 
+//-----------------------------------------------------------
+//
+// Renders list elements containing the final image votes on the DOM
+//
+//-----------------------------------------------------------
 function renderResults() {
   let list = document.getElementById('dataList');
 
+  // sort array from most votes to least
   PRODUCTS_ARR.sort(function(a, b) {
     return b.totalVotes - a.totalVotes;
   });
@@ -89,7 +110,12 @@ function renderResults() {
   }
 }
 
+//-----------------------------------------------------------
+//
+// Shuffle algorithm to shuffle array of objects to ensure randomness
 // Shuffle algorithm is Knuth shuffle found - https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+//
+//-----------------------------------------------------------
 function shuffle() {
   let currentIndex = PRODUCTS_ARR.length;
   let temporaryValue;
