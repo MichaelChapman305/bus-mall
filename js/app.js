@@ -1,6 +1,6 @@
 'use strict';
 
-const PRODUCTS_ARR = [
+let PRODUCTS_ARR = [
   {HTMLid: 'bag', imgURL: './images/bag.jpg', totalViews: 0, totalVotes: 0},
   {HTMLid: 'banana', imgURL: './images/banana.jpg', totalViews: 0, totalVotes: 0},
   {HTMLid: 'bathroom', imgURL: './images/bathroom.jpg', totalViews: 0, totalVotes: 0},
@@ -68,6 +68,8 @@ function handleClick(event) {
     PRODUCTS_ARR[2].totalVotes++;
   }
 
+  setStorage(PRODUCTS_ARR);
+
   if (clicks !== 25) {
     // Remove first 3 array elements and splice to random locations > index 2
     for (let i = 0; i < 3; i++) {
@@ -87,8 +89,8 @@ function handleClick(event) {
   } else {
     let divs = document.getElementsByTagName('div');
 
-    for (let l = 1; l < divs.length - 1; l++) {
-      divs[l].removeEventListener('click', handleClick);
+    for (let y = 1; y < divs.length - 1; y++) {
+      divs[y].removeEventListener('click', handleClick);
     }
 
     renderResults();
@@ -134,7 +136,6 @@ function renderChart() {
           backgroundColor : 'rgb(64, 211, 191)',
           borderColor : 'rgb(46, 146, 133)',
           pointBackgroundColor: 'rgb(46, 135, 100)',
-          label: 'Final Vote Data'
         }
       ]
     },
@@ -150,6 +151,13 @@ function renderChart() {
           },
           maintainAspectRatio: false,
         }]
+      },
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Final Vote Data'
       }
     }
   };
@@ -176,6 +184,7 @@ function renderChart() {
 // Shuffle algorithm is Knuth shuffle found - https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 //
 //-----------------------------------------------------------
+// Possibly change to only make first three random rather than shuffle
 function shuffle() {
   let currentIndex = PRODUCTS_ARR.length;
   let temporaryValue;
@@ -193,5 +202,44 @@ function shuffle() {
   }
 }
 
-shuffle();
-renderImages();
+//-----------------------------------------------------------
+//
+// Sets PRODUCT_ARR and clicks to local storage
+//
+//-----------------------------------------------------------
+function setStorage(data) {
+  localStorage.setItem('productsData', JSON.stringify(data));
+  localStorage.setItem('clickCount', clicks);
+}
+
+//-----------------------------------------------------------
+//
+// IIFE which either starts poll, continues poll, or renders results
+//
+//-----------------------------------------------------------
+(function startPoll() {
+  let ls = localStorage;
+
+  // If storage exists get local storage and assign to variables
+  if (ls.getItem('productsData')) {
+    let data = JSON.parse(ls.getItem('productsData'));
+    let clickCount = parseInt(ls.getItem('clickCount'));
+
+    clicks = clickCount;
+    PRODUCTS_ARR = data;
+
+    // if clicks !== 25 render images
+    if (ls.getItem('clickCount') !== '25') {
+      renderImages();
+
+    // if clicks === 25 render results
+    } else {
+      renderResults();
+    }
+
+  // if no storage, start poll
+  } else {
+    shuffle();
+    renderImages();
+  }
+})();
