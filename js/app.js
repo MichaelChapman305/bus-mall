@@ -122,7 +122,6 @@ function renderResults() {
   renderChart();
 }
 
-
 //-----------------------------------------------------------
 //
 // Renders bar graph reflecting data
