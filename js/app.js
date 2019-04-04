@@ -57,17 +57,13 @@ function handleClick(event) {
 
   let parentId = event.target.id;
   let childEl = event.target;
-  console.log(childEl);
 
   // Whichever was selected, increment votes
   if (parentId === 'product_0' || parentId === PRODUCTS_ARR[0].HTMLid) {
-    console.log(PRODUCTS_ARR[0]);
     PRODUCTS_ARR[0].totalVotes++;
   } else if (parentId === 'product_1' || parentId === PRODUCTS_ARR[1].HTMLid) {
-    console.log(PRODUCTS_ARR[1]);
     PRODUCTS_ARR[1].totalVotes++;
   } else {
-    console.log(PRODUCTS_ARR[2]);
     PRODUCTS_ARR[2].totalVotes++;
   }
 
@@ -248,7 +244,6 @@ function setStorage(data) {
 
   // if no storage, start poll
   } else {
-    console.log('hello');
     shuffle();
     renderImages();
   }
