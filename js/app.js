@@ -37,8 +37,6 @@ function renderImages() {
     let img = document.createElement('img');
     imgContainer.appendChild(img);
 
-    imgContainer.addEventListener('click', handleClick);
-
     img.setAttribute('class', 'item');
     img.setAttribute('id', PRODUCTS_ARR[i].HTMLid);
     img.setAttribute('src', PRODUCTS_ARR[i].imgURL);
@@ -58,17 +56,20 @@ function handleClick(event) {
   clicks++;
 
   let parentId = event.target.id;
+  let childEl = event.target;
+  console.log(childEl);
 
   // Whichever was selected, increment votes
-  if (parentId === 'product_0') {
+  if (parentId === 'product_0' || parentId === PRODUCTS_ARR[0].HTMLid) {
+    console.log(PRODUCTS_ARR[0]);
     PRODUCTS_ARR[0].totalVotes++;
-  } else if (parentId === 'product_1') {
+  } else if (parentId === 'product_1' || parentId === PRODUCTS_ARR[1].HTMLid) {
+    console.log(PRODUCTS_ARR[1]);
     PRODUCTS_ARR[1].totalVotes++;
   } else {
+    console.log(PRODUCTS_ARR[2]);
     PRODUCTS_ARR[2].totalVotes++;
   }
-
-  setStorage(PRODUCTS_ARR);
 
   if (clicks !== 25) {
     // Remove first 3 array elements and splice to random locations > index 2
@@ -78,6 +79,8 @@ function handleClick(event) {
       let item = PRODUCTS_ARR.shift();
       PRODUCTS_ARR.splice(randomNum, 0, item);
     }
+
+    setStorage(PRODUCTS_ARR);
 
     // Removes each image from the DOM and call renderImages() for next 3
     for (let j = 0; j < 3; j++) {
@@ -220,6 +223,13 @@ function setStorage(data) {
 (function startPoll() {
   let ls = localStorage;
 
+  // Add event listeners to parent div
+  for (let i = 0; i < 3; i++) {
+    let imgContainer = document.getElementById(`product_${i}`);
+
+    imgContainer.addEventListener('click', handleClick);
+  }
+
   // If storage exists get local storage and assign to variables
   if (ls.getItem('productsData')) {
     let data = JSON.parse(ls.getItem('productsData'));
@@ -239,6 +249,7 @@ function setStorage(data) {
 
   // if no storage, start poll
   } else {
+    console.log('hello');
     shuffle();
     renderImages();
   }
