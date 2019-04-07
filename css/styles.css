@@ -2,19 +2,26 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 100px 250px 400px;
-  grid-gap: 10px;
+  grid-gap: 20px;
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 header {
-  background-color: blue;
+  background-color: #1C4B82;
   text-align: center; 
   grid-column-start: 1;
   grid-column-end: last;
 }
 
 .product {
-  background-color: blue;
+  background-color: #1C4B82;
   text-align: center;
+}
+
+h1 {
+  font-size: 45px;
+  margin-top: 25px;
+  color: white;
 }
 
 .item {
@@ -25,6 +32,7 @@ header {
 #product_0 {
   grid-column-start: 1;
   grid-column-end: 5;
+  margin-left: 20px;
 }
 
 #product_1 {
@@ -37,10 +45,32 @@ header {
   grid-column-end: 13;
 }
 
+#resultsSection {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  margin-left: 25px;
+}
+
 #results {
-  background-color: green;
-  grid-column-start: 1;
-  grid-column-end: 5
+  background-color: #DD6B4D;
+  border-radius: 15px;
+  margin-right: 25px;
+  color: white;
+  padding-left: 15%;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+li {
+  list-style-type: disc;
+  list-style-position: inside;
+  margin-top: 3px;
+  font-size: 15px;
+}
+
+#results h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
 }
 
 #graph {
