@@ -56,7 +56,6 @@ function handleClick(event) {
   clicks++;
 
   let parentId = event.target.id;
-  let childEl = event.target;
 
   // Whichever was selected, increment votes
   if (parentId === 'product_0' || parentId === PRODUCTS_ARR[0].HTMLid) {
@@ -102,7 +101,18 @@ function handleClick(event) {
 //
 //-----------------------------------------------------------
 function renderResults() {
-  let list = document.getElementById('dataList');
+  let results = document.getElementById('resultsSection');
+
+  let div = document.createElement('div');
+  div.setAttribute('id', 'results');
+  results.appendChild(div);
+
+  let h3 = document.createElement('h3');
+  h3.textContent = 'Results:';
+  div.appendChild(h3);
+
+  let ol = document.createElement('ol');
+  div.appendChild(ol);
 
   // sort array from most votes to least
   PRODUCTS_ARR.sort(function(a, b) {
@@ -111,7 +121,7 @@ function renderResults() {
 
   for (let i = 0; i < PRODUCTS_ARR.length; i++) {
     let listItem = document.createElement('li');
-    list.appendChild(listItem);
+    ol.appendChild(listItem);
     listItem.textContent =`${PRODUCTS_ARR[i].totalVotes} votes for ${PRODUCTS_ARR[i].HTMLid}`;
   }
 
@@ -143,10 +153,10 @@ function renderChart() {
           maxBarThickness: 30,
         }],
         yAxes: [{
-          ticks: {stepSize: 1},
           gridLines: {
-            offsetGridLines: false
+            offsetGridLines: false,
           },
+          ticks: {stepSize: 1},
           maintainAspectRatio: false,
         }]
       },
